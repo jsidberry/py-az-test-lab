@@ -8,37 +8,35 @@ This creates a RHEL9 VM that is running Event Driven Ansible or EDA.
 git clone git@bitbucket.org:insightglobal/prod-ops.git
 ```
 
-2. Navigate into the Terrafrom for EDA directory: 
+2. Navigate into the Terrafrom for K8s directory: 
 ```bash
 cd prod-ops/tf-az-k8s-dev-lab
 ```
 
-3. Copy the `example.tfvars` file `terraform.tfvars`: 
+3. Copy the `example.tfvars` file `k8s.tfvars`: 
 ```bash
-cp example-tfvars terraform.tfvars
+cp example-tfvars k8s.tfvars
 ```
 
-4. Here, you are going to change the values within the `terraform.tfvars` file. You can change things to whatever you want; **however**, to keep it simple, you can use all the existing values except the following. These are the only values you **MUST** supply:
+4. Here, you are going to change the values within the `k8s.tfvars` file. You can change things to whatever you want; **however**, to keep it simple, you can use all the existing values except the following. These are the only values you **MUST** supply:
 
 ```bash
 supportcontact = ""
 admin_username = ""
-admin_password = ""
 ```
 
 Below are suggested commands to use. This will name the user account on the VM and match the user account on your Macbook Pro or on your local Linux host (depending from where you are running this): 
 
 ```bash
-sed "s/supportcontact = \"\"/supportcontact = \"$(whoami)\"/" terraform.tfvars
-sed "s/admin_username = \"\"/admin_username = \"$(whoami)\"/" terraform.tfvars
-sed 's/admin_password = ""/admin_password = "prodops@IG"/' terraform.tfvars
+sed "s/supportcontact = \"\"/supportcontact = \"$(whoami)\"/" k8s.tfvars
+sed "s/admin_username = \"\"/admin_username = \"$(whoami)\"/" k8s.tfvars
 ```
 
-5. Now your code is ready to build out you EDA host. Run the following commands:
+5. Now your code is ready to build out you K8S host. Run the following commands:
 ```bash
 terraform init
-terraform plan -var-file="terraform.tfvars"
-terraform apply -auto-approve -var-file="terraform.tfvars"
+terraform plan -var-file="k8s.tfvars"
+terraform apply -auto-approve -var-file="k8s.tfvars"
 ```
 6. At the end of the deployment you will see an IP address output. That is the Public IP address so that you can log into the VM from you local laptop. It will look something like this:
 ```bash
@@ -55,5 +53,5 @@ ssh <username>@52.xxx.xxx.167
 
 When you are done playing with the EDA in the Sandbox, you can (and should) destroy it. Do not do this manually in the Azure Portal. Please use the Terraform command below:
 ```bash
-terraform destroy -auto-approve -var-file="eda.tfvars"
+terraform destroy -auto-approve -var-file="k8s.tfvars"
 ```
